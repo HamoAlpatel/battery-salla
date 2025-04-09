@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>اختيار البطارية المناسبة</title>
   <style>
+    /* تصميم الصفحة الأساسي */
     body {
       font-family: 'Cairo', sans-serif;
       direction: rtl;
@@ -15,11 +16,12 @@
     h1 {
       text-align: center;
       color: #0065d2;
+      margin-bottom: 40px;
     }
 
     .question {
       margin-bottom: 25px;
-      background: white;
+      background: #fff;
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
@@ -65,7 +67,7 @@
 
     .battery strong {
       display: inline-block;
-      width: 100px;
+      width: 120px;
       color: #0065d2;
     }
 
@@ -73,7 +75,7 @@
       display: inline-block;
       margin-top: 15px;
       background: #0065d2;
-      color: white;
+      color: #fff;
       text-decoration: none;
       padding: 10px 20px;
       border-radius: 10px;
@@ -90,103 +92,6288 @@
   <div id="app"></div>
 
   <script>
+    // بيانات محاكاة مأخوذة من ملف Excel
+    // لكل صف: carBrand (الشركة)، yearFrom، yearTo (مجال السنوات)، type، category، price، ورابط المنتج (link)
     const batteries = [
-      {
-        brand: "ACDelco",
-        company: "Toyota",
-        model: "Corolla",
-        year: 2020,
-        capacity: "60Ah",
-        link: "https://example.com/battery/acdelco"
-      },
-      {
-        brand: "Bosch",
-        company: "Toyota",
-        model: "Camry",
-        year: 2021,
-        capacity: "65Ah",
-        link: "https://example.com/battery/bosch"
-      },
-      {
-        brand: "Exide",
-        company: "Nissan",
-        model: "Altima",
-        year: 2020,
-        capacity: "55Ah",
-        link: "https://example.com/battery/exide"
-      },
-      {
-        brand: "Varta",
-        company: "Toyota",
-        model: "Corolla",
-        year: 2022,
-        capacity: "62Ah",
-        link: "https://example.com/battery/varta"
-      }
-    ];
+    {
+        "carBrand": "أستون مارتن",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "دي بي 7",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/أستونمارتنديبي720-66"
+    },
+    {
+        "carBrand": "أستون مارتن",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "دي بي 7",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/أستونمارتنديبي720-66"
+    },
+    {
+        "carBrand": "أستون مارتن",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "دي بي 9",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/أستونمارتنديبي920-88"
+    },
+    {
+        "carBrand": "أستون مارتن",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "دي بي إس",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أستونمارتنديبيإس20-100"
+    },
+    {
+        "carBrand": "أستون مارتن",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "رابيد",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أستونمارتنرابيد20-100"
+    },
+    {
+        "carBrand": "أستون مارتن",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "فانكويش",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/أستونمارتنفانكويش20-88"
+    },
+    {
+        "carBrand": "أستون مارتن",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "فانتاج",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أستونمارتنفانتاج20-100"
+    },
+    {
+        "carBrand": "أستون مارتن",
+        "yearFrom": 2012,
+        "yearTo": 2025,
+        "type": "فيراج",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أستونمارتنفيراج20-100"
+    },
+    {
+        "carBrand": "أستون مارتن",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "دي بي 9",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أستونمارتنديبي920-100"
+    },
+    {
+        "carBrand": "أستون مارتن",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "فانكويش",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أستونمارتنفانكويش20-100"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "ايه 6 (6 سلندر)",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/أوديايه6(6سلندر)20-66"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "ايه 6 (8 سلندر)",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/أوديايه6(8سلندر)20-88"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "ايه 8",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/أوديايه820-88"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "أس 4",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/أوديأس420-88"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أس 5",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/أوديأس520-88"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "تي تي (4,5 سلندر)",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/أوديتيتي(4,5سلندر)20-55"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "كيو 5",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/أوديكيو520-66"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "كيو 7",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/أوديكيو720-88"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "أيه 3",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/أوديأيه320-55"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "أيه 4",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/أوديأيه420-88"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أيه 4 (6 سلندر)",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/أوديأيه4(6سلندر)20-88"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "أيه 4 (4 سلندر)",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/أوديأيه4(4سلندر)94R-72"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "أيه 4 (4 سلندر)",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/أوديأيه4(4سلندر)20-66"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "أيه 4 (6 سلندر)",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/أوديأيه4(6سلندر)94R-72"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": "أيه 4",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/أوديأيه420-66"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أيه 5",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/أوديأيه520-88"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "أيه 6 (6 سلندر)",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/أوديأيه6(6سلندر)20-88"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "أيه 6 (6 سلندر)",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/أوديأيه6(6سلندر)94R-72"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "ايه 6 (8 سلندر)",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أوديايه6(8سلندر)20-100"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "ايه 8",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أوديايه820-100"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "أس 4",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أوديأس420-100"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أس 5",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أوديأس520-100"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "كيو 7",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أوديكيو720-100"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "أيه 3",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/أوديأيه320-66"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "أيه 4",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أوديأيه420-100"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أيه 4 (6 سلندر)",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أوديأيه4(6سلندر)20-100"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أيه 5",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أوديأيه520-100"
+    },
+    {
+        "carBrand": "أودي",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "أيه 6 (6 سلندر)",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/أوديأيه6(6سلندر)20-100"
+    },
+    {
+        "carBrand": "بنتلي",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "أرناج",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/بنتليأرناج27-66"
+    },
+    {
+        "carBrand": "بنتلي",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": "آزور",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/بنتليآزور27-66"
+    },
+    {
+        "carBrand": "بنتلي",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "بروكلاندز",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/بنتليبروكلاندز27-66"
+    },
+    {
+        "carBrand": "بنتلي",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "كونتيننتال",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بنتليكونتيننتال20-100"
+    },
+    {
+        "carBrand": "بنتلي",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "مولسان",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بنتليمولسان20-100"
+    },
+    {
+        "carBrand": "بنتلي",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "تيربو أر",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/بنتليتيربوأر20-66"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 1977,
+        "yearTo": 2025,
+        "type": "فئة 300",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/بيإمدبليوفئة30020-55"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "فئة 500",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بيإمدبليوفئة50020-100"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 1986,
+        "yearTo": 2025,
+        "type": "فئة 500",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/بيإمدبليوفئة50020-66"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 1975,
+        "yearTo": 2025,
+        "type": "فئة 500",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/بيإمدبليوفئة50020-55"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "فئة 700",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بيإمدبليوفئة70020-100"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": "زد 3",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/بيإمدبليوزد320-66"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "زد 4",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/بيإمدبليوزد420-66"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "زد 4",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/بيإمدبليوزد420-55"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "زد 8",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/بيإمدبليوزد820-88"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "أكس 3",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/بيإمدبليوأكس320-88"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "أكس 3",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بيإمدبليوأكس320-100"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "أكس 5 (8 سلندر)",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/بيإمدبليوأكس5(8سلندر)20-88"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "أكس 5 (6 سلندر)",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/بيإمدبليوأكس5(6سلندر)94R-72"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "فئة 300",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/بيإمدبليوفئة30020-66"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "فئة 300",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/بيإمدبليوفئة30094R-72"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 1984,
+        "yearTo": 2025,
+        "type": "فئة 300",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/بيإمدبليوفئة30027-66"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "زد 8",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بيإمدبليوزد820-100"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "أكس 3",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بيإمدبليوأكس320-100"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "أكس 5 (8 سلندر)",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بيإمدبليوأكس5(8سلندر)20-100"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "فئة 300",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/بيإمدبليوفئة30094R-72"
+    },
+    {
+        "carBrand": "بي إم دبليو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "فئة 300",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بيإمدبليوفئة30020-100"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "إسكاليد",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/كاديلاكإسكاليد94R-72"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2012,
+        "yearTo": 2025,
+        "type": "إسكاليد",
+        "category": "48H-7MF",
+        "price": 438,
+        "link": "https://example.com/product/كاديلاكإسكاليد48H-7MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "إسكاليد",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/كاديلاكإسكاليد48-7MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "إسكاليد",
+        "category": "78A72",
+        "price": 310,
+        "link": "https://example.com/product/كاديلاكإسكاليد78A72"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "إسكاليد إي إس في",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/كاديلاكإسكاليدإيإسفي94R-72"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أس إل إس",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/كاديلاكأسإلإس48-7MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2012,
+        "yearTo": 2025,
+        "type": "أس آر إكس",
+        "category": "48H-7MF",
+        "price": 438,
+        "link": "https://example.com/product/كاديلاكأسآرإكس48H-7MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أس آر إكس",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/كاديلاكأسآرإكس48-7MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "أس تي إس",
+        "category": "48H-7MF",
+        "price": 438,
+        "link": "https://example.com/product/كاديلاكأستيإس48H-7MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أس تي إس",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/كاديلاكأستيإس48-7MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "أس تي إس",
+        "category": "101-MF",
+        "price": null,
+        "link": "https://example.com/product/كاديلاكأستيإس101-MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "أكس إل آر",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/كاديلاكأكسإلآر94R-72"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أكس إل آر",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/كاديلاكأكسإلآر85B60K"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "أكس إل آر",
+        "category": "90-6MF",
+        "price": null,
+        "link": "https://example.com/product/كاديلاكأكسإلآر90-6MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "أكس إل آر",
+        "category": "86-6MF",
+        "price": null,
+        "link": "https://example.com/product/كاديلاكأكسإلآر86-6MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "أكس تي إس",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/كاديلاكأكستيإس94R-72"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "إيه تي إس",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/كاديلاكإيهتيإس48-7MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "بي إل إس",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/كاديلاكبيإلإس48-7MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2014,
+        "yearTo": 2025,
+        "type": "سي تي إس",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/كاديلاكسيتيإس94R-72"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "سي تي إس",
+        "category": "48H-7MF",
+        "price": 438,
+        "link": "https://example.com/product/كاديلاكسيتيإس48H-7MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "سي تي إس",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/كاديلاكسيتيإس48-7MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "سي تي إس",
+        "category": "101-MF",
+        "price": null,
+        "link": "https://example.com/product/كاديلاكسيتيإس101-MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "دي تي إس",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/كاديلاكديتيإس94R-72"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "دي تي إس",
+        "category": "79-MF",
+        "price": null,
+        "link": "https://example.com/product/كاديلاكديتيإس79-MF"
+    },
+    {
+        "carBrand": "كاديلاك",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "إسكاليد",
+        "category": "78A84",
+        "price": null,
+        "link": "https://example.com/product/كاديلاكإسكاليد78A84"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "ماليبو",
+        "category": "90-6MF",
+        "price": null,
+        "link": "https://example.com/product/شفروليهماليبو90-6MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "أن 200",
+        "category": "30-50",
+        "price": null,
+        "link": "https://example.com/product/شفروليهأن20030-50"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "أن 300",
+        "category": "30-50",
+        "price": null,
+        "link": "https://example.com/product/شفروليهأن30030-50"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "أوبترا",
+        "category": "86-6MF",
+        "price": null,
+        "link": "https://example.com/product/شفروليهأوبترا86-6MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2014,
+        "yearTo": 2025,
+        "type": "سلفرادو (8 سلندر)",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/شفروليهسلفرادو(8سلندر)94R-72"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2014,
+        "yearTo": 2025,
+        "type": "سلفرادو (6 سلندر)",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهسلفرادو(6سلندر)48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "سلفرادو",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهسلفرادو48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "سلفرادو",
+        "category": "78A84",
+        "price": null,
+        "link": "https://example.com/product/شفروليهسلفرادو78A84"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "سيل",
+        "category": "NS60MF",
+        "price": 189,
+        "link": "https://example.com/product/شفروليهسيلNS60MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2012,
+        "yearTo": 2025,
+        "type": "سونيك",
+        "category": "47-7MF",
+        "price": 241,
+        "link": "https://example.com/product/شفروليهسونيك47-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "سبارك",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/شفروليهسبارك27-44"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "سبارك",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/شفروليهسباركNS40ZLMF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "سوبربان",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/شفروليهسوبربان94R-72"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "سوبربان",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهسوبربان48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "سوبربان",
+        "category": "78A72",
+        "price": 310,
+        "link": "https://example.com/product/شفروليهسوبربان78A72"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "تاهو",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/شفروليهتاهو94R-72"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "تاهو",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهتاهو48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "تاهو",
+        "category": "78A84",
+        "price": null,
+        "link": "https://example.com/product/شفروليهتاهو78A84"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2014,
+        "yearTo": 2025,
+        "type": "تراكس",
+        "category": "47-7MF",
+        "price": 241,
+        "link": "https://example.com/product/شفروليهتراكس47-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "تريل بليزر",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهتريلبليزر48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "تريل بليزر",
+        "category": "78A72",
+        "price": 310,
+        "link": "https://example.com/product/شفروليهتريلبليزر78A72"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "ترافرس",
+        "category": "48H-7MF",
+        "price": 438,
+        "link": "https://example.com/product/شفروليهترافرس48H-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "ترافرس",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهترافرس48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "أبالاندر",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/شفروليهأبالاندر34-72"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "فينتشر",
+        "category": "78A72",
+        "price": 310,
+        "link": "https://example.com/product/شفروليهفينتشر78A72"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "كابريس",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهكابريس48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "كابريس",
+        "category": "N50ZLMF",
+        "price": 243,
+        "link": "https://example.com/product/شفروليهكابريسN50ZLMF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "كابريس",
+        "category": "74-60",
+        "price": null,
+        "link": "https://example.com/product/شفروليهكابريس74-60"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "كابتيفا (4 سلندر)",
+        "category": "47-7MF",
+        "price": 241,
+        "link": "https://example.com/product/شفروليهكابتيفا(4سلندر)47-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "كابتيفا (6 سلندر)",
+        "category": "48H-7MF",
+        "price": 438,
+        "link": "https://example.com/product/شفروليهكابتيفا(6سلندر)48H-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "كابتيفا",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهكابتيفا48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "كابتيفا 2.4",
+        "category": "30-60",
+        "price": null,
+        "link": "https://example.com/product/شفروليهكابتيفا2.430-60"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "كابتيفا 3.2",
+        "category": "30-70",
+        "price": 282,
+        "link": "https://example.com/product/شفروليهكابتيفا3.230-70"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "كولورادو",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهكولورادو48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "كولورادو",
+        "category": "86-6MF",
+        "price": null,
+        "link": "https://example.com/product/شفروليهكولورادو86-6MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2014,
+        "yearTo": 2025,
+        "type": "كوفريت",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهكوفريت48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "كوفريت محرك 6.2 لتر",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/شفروليهكوفريتمحرك6.2لتر85B60K"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "كوفريت محرك 7.0 لتر",
+        "category": "90-6MF",
+        "price": null,
+        "link": "https://example.com/product/شفروليهكوفريتمحرك7.0لتر90-6MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "كوفريت",
+        "category": "90-6MF",
+        "price": null,
+        "link": "https://example.com/product/شفروليهكوفريت90-6MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "كروز",
+        "category": "47-7MF",
+        "price": 241,
+        "link": "https://example.com/product/شفروليهكروز47-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "كروز",
+        "category": "90-6MF",
+        "price": null,
+        "link": "https://example.com/product/شفروليهكروز90-6MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "ايبيكا",
+        "category": "86-6MF",
+        "price": null,
+        "link": "https://example.com/product/شفروليهايبيكا86-6MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "اكسبريس",
+        "category": "78A84",
+        "price": null,
+        "link": "https://example.com/product/شفروليهاكسبريس78A84"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2014,
+        "yearTo": 2025,
+        "type": "امبالا",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهامبالا48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "امبالا",
+        "category": "74-60",
+        "price": null,
+        "link": "https://example.com/product/شفروليهامبالا74-60"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "لومينا",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهلومينا48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "لومينا",
+        "category": "N50ZLMF",
+        "price": 243,
+        "link": "https://example.com/product/شفروليهلوميناN50ZLMF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "إل يو في",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/شفروليهإليوفي55D23L"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "ماليبو (4 سلندر)",
+        "category": "47-7MF",
+        "price": 241,
+        "link": "https://example.com/product/شفروليهماليبو(4سلندر)47-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "ماليبو (6 سلندر)",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهماليبو(6سلندر)48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "أفالانش",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/شفروليهأفالانش48-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "أفالانش",
+        "category": "78A84",
+        "price": null,
+        "link": "https://example.com/product/شفروليهأفالانش78A84"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "أفيو",
+        "category": "47-7MF",
+        "price": 241,
+        "link": "https://example.com/product/شفروليهأفيو47-7MF"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "أفيو",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/شفروليهأفيو85BR60K"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "كمارو",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/شفروليهكمارو94R-72"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "سوبربان",
+        "category": "78A84",
+        "price": null,
+        "link": "https://example.com/product/شفروليهسوبربان78A84"
+    },
+    {
+        "carBrand": "شفروليه",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "تاهو",
+        "category": "78A72",
+        "price": 310,
+        "link": "https://example.com/product/شفروليهتاهو78A72"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": 200,
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/كرايسلر20085BR60K"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": 300,
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/كرايسلر30094R-72"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "300 سي",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/كرايسلر300سي94R-72"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "300 سي",
+        "category": "65-72s",
+        "price": 300,
+        "link": "https://example.com/product/كرايسلر300سي65-72s"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "كروسفاير",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/كرايسلركروسفاير48-7MF"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "كونكورد",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/كرايسلركونكورد34-72"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "دايتونا",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/كرايسلردايتونا34-72"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 1985,
+        "yearTo": 2025,
+        "type": "فيفث أفينيو",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/كرايسلرفيفثأفينيو34-72"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "بي تي كروزر",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/كرايسلربيتيكروزر27-44"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "سيبريج",
+        "category": "75-60",
+        "price": null,
+        "link": "https://example.com/product/كرايسلرسيبريج75-60"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "تاون أند كانتري",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/كرايسلرتاونأندكانتري94R-72"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 1985,
+        "yearTo": 2025,
+        "type": "تاون أند كانتري",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/كرايسلرتاونأندكانتري34-72"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "فوياجر",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/كرايسلرفوياجر94R-72"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "فوياجر",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/كرايسلرفوياجر34-72"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": 200,
+        "category": "86-6MF",
+        "price": null,
+        "link": "https://example.com/product/كرايسلر20086-6MF"
+    },
+    {
+        "carBrand": "كرايسلر",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "سيبريج",
+        "category": "86-6MF",
+        "price": null,
+        "link": "https://example.com/product/كرايسلرسيبريج86-6MF"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "سي 8",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/سيتروينسي820-55"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "سي 8",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/سيتروينسي820-88"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 1984,
+        "yearTo": 2025,
+        "type": "كلوب",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/سيتروينكلوب85B60K"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 1976,
+        "yearTo": 2025,
+        "type": "سي أكس 2200",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/سيتروينسيأكس220085BR60K"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 1984,
+        "yearTo": 2025,
+        "type": "سي أكس 2500",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/سيتروينسيأكس250027-55"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "إكزانتا",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/سيتروينإكزانتا27-66"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "أكزارا",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/سيتروينأكزارا27-44"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "بيرلينجو",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/سيتروينبيرلينجو20-55"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "سي 2",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/سيتروينسي220-55"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "سي 3",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/سيتروينسي320-55"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "سي 4",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/سيتروينسي427-55"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "سي 8",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/سيتروينسي827-55"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "سي 8",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/سيتروينسي820-100"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "بيرلينجو",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/سيتروينبيرلينجو27-55"
+    },
+    {
+        "carBrand": "سيتروين",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "سي 4",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/سيتروينسي427-66"
+    },
+    {
+        "carBrand": "دايو",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "لانوس",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/دايولانوس85BR60K"
+    },
+    {
+        "carBrand": "دايو",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "سيلو",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/دايوسيلو27-66"
+    },
+    {
+        "carBrand": "دايو",
+        "yearFrom": 1991,
+        "yearTo": 2025,
+        "type": "اسبيرو (أورانوس)",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/دايواسبيرو(أورانوس)27-66"
+    },
+    {
+        "carBrand": "دايو",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "كاوس",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/دايوكاوس85BR60K"
+    },
+    {
+        "carBrand": "دايو",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "توكوما",
+        "category": "N70MF",
+        "price": 265,
+        "link": "https://example.com/product/دايوتوكوماN70MF"
+    },
+    {
+        "carBrand": "دايو",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "ليجانزا",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/دايوليجانزا85BR60K"
+    },
+    {
+        "carBrand": "دايو",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "نوبيرا",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/دايونوبيرا85BR60K"
+    },
+    {
+        "carBrand": "دايو",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "توكوما",
+        "category": "NX110-5MF",
+        "price": 282,
+        "link": "https://example.com/product/دايوتوكوماNX110-5MF"
+    },
+    {
+        "carBrand": "دايهاتسو",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "ماتيريا",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/دايهاتسوماتيرياNS40ZLMF"
+    },
+    {
+        "carBrand": "دايهاتسو",
+        "yearFrom": 1974,
+        "yearTo": 2025,
+        "type": "سكات (تافت)",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/دايهاتسوسكات(تافت)NS40ZLMF"
+    },
+    {
+        "carBrand": "دايهاتسو",
+        "yearFrom": 1989,
+        "yearTo": 2025,
+        "type": "أبلاوز",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/دايهاتسوأبلاوزNS40ZLMF"
+    },
+    {
+        "carBrand": "دايهاتسو",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "شاراد",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/دايهاتسوشارادNS40ZLMF"
+    },
+    {
+        "carBrand": "دايهاتسو",
+        "yearFrom": 1987,
+        "yearTo": 2025,
+        "type": "شاراد",
+        "category": "NS60LMF",
+        "price": 189,
+        "link": "https://example.com/product/دايهاتسوشارادNS60LMF"
+    },
+    {
+        "carBrand": "دايهاتسو",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "كوبن",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/دايهاتسوكوبنNS40ZLMF"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أفنجر",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/دودجأفنجر85BR60K"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "تشالنجر",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/دودجتشالنجر94R-72"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "تشارجر",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/دودجتشارجر94R-72"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "كاليبر",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/دودجكاليبر85BR60K"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 1985,
+        "yearTo": 2025,
+        "type": "كارفان",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/دودجكارفان34-72"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "داكوتا",
+        "category": "65-72s",
+        "price": 300,
+        "link": "https://example.com/product/دودجداكوتا65-72s"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "دورانجو",
+        "category": "65-72s",
+        "price": 300,
+        "link": "https://example.com/product/دودجدورانجو65-72s"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "نيون",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/دودجنيون27-44"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "نيون",
+        "category": "30-50",
+        "price": null,
+        "link": "https://example.com/product/دودجنيون30-50"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "رام",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/دودجرام94R-72"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "رام",
+        "category": "65-72s",
+        "price": 300,
+        "link": "https://example.com/product/دودجرام65-72s"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "فايبر",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/دودجفايبر34-72"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أفنجر",
+        "category": "86-6MF",
+        "price": null,
+        "link": "https://example.com/product/دودجأفنجر86-6MF"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "تشارجر",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/دودجتشارجر20-100"
+    },
+    {
+        "carBrand": "دودج",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "كاليبر",
+        "category": "86-6MF",
+        "price": null,
+        "link": "https://example.com/product/دودجكاليبر86-6MF"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "إسكيب",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/فوردإسكيب27-55"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "إكسرشن",
+        "category": "65-72S",
+        "price": 300,
+        "link": "https://example.com/product/فوردإكسرشن65-72S"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "إكسبديشن",
+        "category": "65-72S",
+        "price": 300,
+        "link": "https://example.com/product/فوردإكسبديشن65-72S"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 1991,
+        "yearTo": 2025,
+        "type": "إكسبلورار",
+        "category": "65-72S",
+        "price": 300,
+        "link": "https://example.com/product/فوردإكسبلورار65-72S"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "أف بيك أب",
+        "category": "65-72S",
+        "price": 300,
+        "link": "https://example.com/product/فوردأفبيكأب65-72S"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "فييستا",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/فوردفييستا27-55"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "فيقو",
+        "category": "37-45",
+        "price": null,
+        "link": "https://example.com/product/فوردفيقو37-45"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 1992,
+        "yearTo": 2025,
+        "type": "كراون فكتوريا",
+        "category": "65-72s",
+        "price": 300,
+        "link": "https://example.com/product/فوردكراونفكتوريا65-72s"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "إيدج",
+        "category": "30-50",
+        "price": null,
+        "link": "https://example.com/product/فوردإيدج30-50"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "إيدج",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/فوردإيدج27-66"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "أسكيب",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/فوردأسكيب27-55"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "إسكيب",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/فوردإسكيب27-66"
+    },
+    {
+        "carBrand": "فورد",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "إيدج",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/فوردإيدج20-66"
+    },
+    {
+        "carBrand": "جيلي",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "جي إكس 2",
+        "category": "N50MF",
+        "price": 200,
+        "link": "https://example.com/product/جيليجيإكس2N50MF"
+    },
+    {
+        "carBrand": "جيلي",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "إي سي 7",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/جيليإيسي755D23L"
+    },
+    {
+        "carBrand": "جيلي",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "إي سي 8",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/جيليإيسي8NS70LMF"
+    },
+    {
+        "carBrand": "جيلي",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "إي سي 8",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/جيليإيسي8NX110-5LMF"
+    },
+    {
+        "carBrand": "جي إم سي",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "أكاديا",
+        "category": "48H-7MF",
+        "price": 438,
+        "link": "https://example.com/product/جيإمسيأكاديا48H-7MF"
+    },
+    {
+        "carBrand": "جي إم سي",
+        "yearFrom": 2014,
+        "yearTo": 2025,
+        "type": "سييرا (8 سلندر)",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/جيإمسيسييرا(8سلندر)94R-72"
+    },
+    {
+        "carBrand": "جي إم سي",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "تيرين (4 سلندر)",
+        "category": "47-7MF",
+        "price": 241,
+        "link": "https://example.com/product/جيإمسيتيرين(4سلندر)47-7MF"
+    },
+    {
+        "carBrand": "جي إم سي",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "يوكون",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/جيإمسييوكون94R-72"
+    },
+    {
+        "carBrand": "جريت وول",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "وينجل",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/جريتوولوينجل55D23L"
+    },
+    {
+        "carBrand": "جريت وول",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "هوفر",
+        "category": "N70MF",
+        "price": 265,
+        "link": "https://example.com/product/جريتوولهوفرN70MF"
+    },
+    {
+        "carBrand": "جريت وول",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "هوفر",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/جريتوولهوفرNX110-5LMF"
+    },
+    {
+        "carBrand": "هوندا",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أكورد (4 سلندر)",
+        "category": "NX100-6LSMF",
+        "price": null,
+        "link": "https://example.com/product/هونداأكورد(4سلندر)NX100-6LSMF"
+    },
+    {
+        "carBrand": "هوندا",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أكورد (6 سلندر)",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هونداأكورد(6سلندر)NX110-5LMF"
+    },
+    {
+        "carBrand": "هوندا",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "سيفيك",
+        "category": "NS60LSMF",
+        "price": null,
+        "link": "https://example.com/product/هونداسيفيكNS60LSMF"
+    },
+    {
+        "carBrand": "هوندا",
+        "yearFrom": 2012,
+        "yearTo": 2025,
+        "type": "سي آر في",
+        "category": "NX100-6LSMF",
+        "price": null,
+        "link": "https://example.com/product/هونداسيآرفيNX100-6LSMF"
+    },
+    {
+        "carBrand": "هوندا",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "جاز",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/هونداجازNS40ZLMF"
+    },
+    {
+        "carBrand": "هوندا",
+        "yearFrom": 1991,
+        "yearTo": 2025,
+        "type": "ليجند",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هونداليجندNX110-5LMF"
+    },
+    {
+        "carBrand": "هامر",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "اتش 1",
+        "category": "78A84",
+        "price": null,
+        "link": "https://example.com/product/هامراتش178A84"
+    },
+    {
+        "carBrand": "هامر",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "اتش 2",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/هامراتش248-7MF"
+    },
+    {
+        "carBrand": "هامر",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "اتش 3",
+        "category": "86-6MF",
+        "price": null,
+        "link": "https://example.com/product/هامراتش386-6MF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "آي 10",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/هيوندايآي10NS40ZLMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "آي 20",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/هيوندايآي2085B60K"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "أكسنت",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/هيوندايأكسنت27-44"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "أزيرا",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايأزيراNX110-5LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "سنتنيال (إكوس)",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/هيوندايسنتنيال(إكوس)20-100"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "سنتنيال (إكوس)",
+        "category": "NX120-7LMF",
+        "price": 304,
+        "link": "https://example.com/product/هيوندايسنتنيال(إكوس)NX120-7LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "كاونتي",
+        "category": "NX120-7MF",
+        "price": 304,
+        "link": "https://example.com/product/هيوندايكاونتيNX120-7MF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "كوبية",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايكوبيةNX110-5LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "إلنترا (1.6)",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/هيوندايإلنترا(1.6)27-44"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "إلنترا (1.8 & 2.0)",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/هيوندايإلنترا(1.8&2.0)85B60K"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "إلنترا",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/هيوندايإلنترا27-44"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "إلنترا",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/هيوندايإلنترا85B60K"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 1992,
+        "yearTo": 2025,
+        "type": "إلنترا",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/هيوندايإلنترا85B60K"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "جينيسيس",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/هيوندايجينيسيس20-100"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "جيتز",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/هيوندايجيتز85B60K"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "جراندور",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايجراندورNX110-5LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "اتش 1",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيونداياتش1NX110-5LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "فان اتش 100",
+        "category": "N50ZLMF",
+        "price": 243,
+        "link": "https://example.com/product/هيوندايفاناتش100N50ZLMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "فان اتش 101",
+        "category": "N70MF",
+        "price": 265,
+        "link": "https://example.com/product/هيوندايفاناتش101N70MF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "ماتركس",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/هيوندايماتركس85B60K"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "سنتافي",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايسنتافيNX110-5LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "سنتافي (2.0L & 2.4L)",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايسنتافي(2.0L&2.4L)NS70LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "سنتافي (2.7L & 3.5L)",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايسنتافي(2.7L&3.5L)NX110-5LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "سوناتا (1.6)",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/هيوندايسوناتا(1.6)85B60K"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "سوناتا (2.0)",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايسوناتا(2.0)NX110-5LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "سوناتا (2.4)",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايسوناتا(2.4)NX110-5LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "سوناتا",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايسوناتاNS70LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 1989,
+        "yearTo": 2025,
+        "type": "سوناتا",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/هيوندايسوناتا85B60K"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "تيركان (2.00LTR)",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/هيوندايتيركان(2.00LTR)85B60K"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "تيركان (2.7LTR)",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايتيركان(2.7LTR)NX110-5LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "تراجت (2.00LTR)",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/هيوندايتراجت(2.00LTR)85B60K"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "تراجت (2.7LTR)",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايتراجت(2.7LTR)NX110-5LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "توسان",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/هيوندايتوسان85B60K"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "فيلوستر",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/هيوندايفيلوستر27-44"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "فيراكروز",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايفيراكروزNX110-5LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "إلنترا",
+        "category": "N70LMF",
+        "price": 265,
+        "link": "https://example.com/product/هيوندايإلنتراN70LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "سنتافي (2.0L & 2.4L)",
+        "category": "N70LMF",
+        "price": 265,
+        "link": "https://example.com/product/هيوندايسنتافي(2.0L&2.4L)N70LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "سنتافي (2.0L & 2.4L)",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايسنتافي(2.0L&2.4L)NX110-5LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "سوناتا",
+        "category": "N70LMF",
+        "price": 265,
+        "link": "https://example.com/product/هيوندايسوناتاN70LMF"
+    },
+    {
+        "carBrand": "هيونداي",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "سوناتا",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/هيوندايسوناتاNX110-5LMF"
+    },
+    {
+        "carBrand": "إنفينيتي",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "اف اكس / اي اكس",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/إنفينيتيافاكس/اياكس55D23L"
+    },
+    {
+        "carBrand": "إنفينيتي",
+        "yearFrom": 2012,
+        "yearTo": 2025,
+        "type": "إم",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/إنفينيتيإمNX110-5LMF"
+    },
+    {
+        "carBrand": "إنفينيتي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "كيو 45",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/إنفينيتيكيو4555D23L"
+    },
+    {
+        "carBrand": "إنفينيتي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "جي 35",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/إنفينيتيجي3555D23L"
+    },
+    {
+        "carBrand": "إنفينيتي",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "جي 37",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/إنفينيتيجي3755D23L"
+    },
+    {
+        "carBrand": "إنفينيتي",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "جي اكس",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/إنفينيتيجياكس55D23L"
+    },
+    {
+        "carBrand": "إنفينيتي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "كيو اكس 56",
+        "category": "NX120-7LMF",
+        "price": 304,
+        "link": "https://example.com/product/إنفينيتيكيواكس56NX120-7LMF"
+    },
+    {
+        "carBrand": "إنفينيتي",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "جي 37",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/إنفينيتيجي37NX110-5LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "دي ماكس",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوديماكسNX110-5LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "أف أر أر",
+        "category": "70D23LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوأفأرأر70D23LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "أف أس أر",
+        "category": "70D23LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوأفأسأر70D23LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "أف تي أر",
+        "category": "70D23LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوأفتيأر70D23LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "أف في أر",
+        "category": "70D23LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوأففيأر70D23LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "إم يو إكس",
+        "category": "70D23LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوإميوإكس70D23LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "إن اتش أر",
+        "category": "NX120-7MF",
+        "price": 304,
+        "link": "https://example.com/product/إيسوزوإناتشأرNX120-7MF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "إن كي أر",
+        "category": "70D23R",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوإنكيأر70D23R"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "إن إم أر",
+        "category": "70D23LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوإنإمأر70D23LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "إن بي أر",
+        "category": "70D23LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوإنبيأر70D23LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "إن كيو أر",
+        "category": "70D23LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوإنكيوأر70D23LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "كيو كيه أر",
+        "category": "70D23LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوكيوكيهأر70D23LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "ريوارد",
+        "category": "70D23L",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوريوارد70D23L"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "روديو",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوروديوNX110-5LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "سوبر جامبو",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوسوبرجامبوNX110-5LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "تروبر",
+        "category": "N50MF",
+        "price": 200,
+        "link": "https://example.com/product/إيسوزوتروبرN50MF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "أف أر أر",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوأفأرأرNS70LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "أف أس أر",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوأفأسأرNS70LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "أف تي أر",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوأفتيأرNS70LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "أف في أر",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوأففيأرNS70LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "إم يو إكس",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوإميوإكسNS70LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "إن إم أر",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوإنإمأرNS70LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "إن بي أر",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوإنبيأرNS70LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "إن كيو أر",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوإنكيوأرNS70LMF"
+    },
+    {
+        "carBrand": "إيسوزو",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "كيو كيه أر",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/إيسوزوكيوكيهأرNS70LMF"
+    },
+    {
+        "carBrand": "جاكوار",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "فئة أس",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/جاكوارفئةأس20-100"
+    },
+    {
+        "carBrand": "جاكوار",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "سوبر",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/جاكوارسوبر20-100"
+    },
+    {
+        "carBrand": "جاكوار",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "أكس أف",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/جاكوارأكسأف20-100"
+    },
+    {
+        "carBrand": "جاكوار",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "أكس أف أر",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/جاكوارأكسأفأر20-100"
+    },
+    {
+        "carBrand": "جاكوار",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "أكس جي",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/جاكوارأكسجي20-66"
+    },
+    {
+        "carBrand": "جاكوار",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "أكس جي",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/جاكوارأكسجي20-55"
+    },
+    {
+        "carBrand": "جاكوار",
+        "yearFrom": 1991,
+        "yearTo": 2025,
+        "type": "أكس جي أس",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/جاكوارأكسجيأس20-55"
+    },
+    {
+        "carBrand": "جاكوار",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "أكس كاي",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/جاكوارأكسكاي20-100"
+    },
+    {
+        "carBrand": "جاكوار",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "أكس كاي أر",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/جاكوارأكسكايأر20-100"
+    },
+    {
+        "carBrand": "جاكوار",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "فئة أكس",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/جاكوارفئةأكس94R-72"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "شيروكي",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/جيبشيروكي34-72"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "كوماندر",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/جيبكوماندر94R-72"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "كومباس",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/جيبكومباس85BR60K"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "جراند شيروكي",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/جيبجراندشيروكي94R-72"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "جراند شيروكي",
+        "category": "65-72S",
+        "price": 300,
+        "link": "https://example.com/product/جيبجراندشيروكي65-72S"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "جراند شيروكي",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/جيبجراندشيروكي34-72"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "ليبرتي",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/جيبليبرتي34-72"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "باتريوت",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/جيبباتريوت85BR60K"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 2012,
+        "yearTo": 2025,
+        "type": "رانجلر",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/جيبرانجلر94R-72"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "رانجلر",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/جيبرانجلر34-72"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "كومباس",
+        "category": "86-6MF",
+        "price": null,
+        "link": "https://example.com/product/جيبكومباس86-6MF"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "جراند شيروكي",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/جيبجراندشيروكي27-66"
+    },
+    {
+        "carBrand": "جيب",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "باتريوت",
+        "category": "86-6MF",
+        "price": null,
+        "link": "https://example.com/product/جيبباتريوت86-6MF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "كادينزا",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/كياكادينزاNX110-5LMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "كارينز",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/كياكارينز85B60K"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "كارينز",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/كياكارينز27-55"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "كارنفال",
+        "category": "N70LMF",
+        "price": 265,
+        "link": "https://example.com/product/كياكارنفالN70LMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "سيراتو",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/كياسيراتو27-44"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "سيراتو",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/كياسيراتو27-55"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "كلاروس",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/كياكلاروس85B60K"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "جويــس",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/كياجويــس85B60K"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "بنجو / بريجو 2700",
+        "category": "105D31L",
+        "price": 327,
+        "link": "https://example.com/product/كيابنجو/بريجو2700105D31L"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "موهافي",
+        "category": "N70LMF",
+        "price": 265,
+        "link": "https://example.com/product/كياموهافيN70LMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "أوبيروس",
+        "category": "N70LMF",
+        "price": 265,
+        "link": "https://example.com/product/كياأوبيروسN70LMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "أوبتيما",
+        "category": "N70LMF",
+        "price": 265,
+        "link": "https://example.com/product/كياأوبتيماN70LMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "بيكانتو",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/كيابيكانتوNS40ZLMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "برايد",
+        "category": "30-55",
+        "price": 222,
+        "link": "https://example.com/product/كيابرايد30-55"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 1991,
+        "yearTo": 2025,
+        "type": "برايد",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/كيابرايد27-55"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "ريو",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/كياريو27-44"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "ريو",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/كياريو85B60K"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "سيفيا",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/كياسيفيا85B60K"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "شوما",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/كياشوما27-55"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "سورينتو",
+        "category": "N70LMF",
+        "price": 265,
+        "link": "https://example.com/product/كياسورينتوN70LMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "سورينتو",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/كياسورينتوNX110-5LMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "سول",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/كياسول27-44"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "سول",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/كياسول55D23L"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "سبورتج",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/كياسبورتج85B60K"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "سبورتج",
+        "category": "30-50",
+        "price": null,
+        "link": "https://example.com/product/كياسبورتج30-50"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "كارينز",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/كياكارينزNX110-5LMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "كارنفال",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/كياكارنفالNX110-5LMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "سيراتو",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/كياسيراتو27-55"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "موهافي",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/كياموهافيNX110-5LMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "أوبيروس",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/كياأوبيروسNX110-5LMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "أوبتيما",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/كياأوبتيماNX110-5LMF"
+    },
+    {
+        "carBrand": "كيا",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "سورينتو",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/كياسورينتوNX110-5LMF"
+    },
+    {
+        "carBrand": "لامبورجيني",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "ديابلو",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/لامبورجينيديابلو34-72"
+    },
+    {
+        "carBrand": "لامبورجيني",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "جالاردو",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/لامبورجينيجالاردو20-100"
+    },
+    {
+        "carBrand": "لامبورجيني",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "جالاردو",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/لامبورجينيجالاردو34-72"
+    },
+    {
+        "carBrand": "لامبورجيني",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "مورسيلاجو",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/لامبورجينيمورسيلاجو20-100"
+    },
+    {
+        "carBrand": "لامبورجيني",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "مورسيلاجو",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/لامبورجينيمورسيلاجو27-66"
+    },
+    {
+        "carBrand": "لاند روفر",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "ديسكفري",
+        "category": "NX110-5MF",
+        "price": 282,
+        "link": "https://example.com/product/لاندروفرديسكفريNX110-5MF"
+    },
+    {
+        "carBrand": "لاند روفر",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "ديسكفري",
+        "category": "34-72",
+        "price": null,
+        "link": "https://example.com/product/لاندروفرديسكفري34-72"
+    },
+    {
+        "carBrand": "لاند روفر",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "فريلاندر",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/لاندروفرفريلاندر20-55"
+    },
+    {
+        "carBrand": "لاند روفر",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "فريلاندر",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/لاندروفرفريلاندر27-66"
+    },
+    {
+        "carBrand": "لاند روفر",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "أل أر 2",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/لاندروفرألأر294R-72"
+    },
+    {
+        "carBrand": "لاند روفر",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "أل أر 3",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/لاندروفرألأر394R-72"
+    },
+    {
+        "carBrand": "لاند روفر",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "أل أر 3",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/لاندروفرألأر394R-72"
+    },
+    {
+        "carBrand": "لاند روفر",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "أل أر 4",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/لاندروفرألأر494R-72"
+    },
+    {
+        "carBrand": "لاند روفر",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "رانج روفر",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/لاندروفررانجروفر20-100"
+    },
+    {
+        "carBrand": "لاند روفر",
+        "yearFrom": 2015,
+        "yearTo": 2025,
+        "type": "رانج روفر",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/لاندروفررانجروفر94R-72"
+    },
+    {
+        "carBrand": "لكزس",
+        "yearFrom": 1992,
+        "yearTo": 2025,
+        "type": "فئة إي أس",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/لكزسفئةإيأسNX110-5LMF"
+    },
+    {
+        "carBrand": "لكزس",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "فئة جي أس",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/لكزسفئةجيأسNX110-5LMF"
+    },
+    {
+        "carBrand": "لكزس",
+        "yearFrom": 1991,
+        "yearTo": 2025,
+        "type": "فئة جي أس",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/لكزسفئةجيأسNX110-5LMF"
+    },
+    {
+        "carBrand": "لكزس",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "فئة أي أس",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/لكزسفئةأيأسNX110-5LMF"
+    },
+    {
+        "carBrand": "لكزس",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "فئة أر أكس",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/لكزسفئةأرأكسNX110-5LMF"
+    },
+    {
+        "carBrand": "لكزس",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "فئة أل أس",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/لكزسفئةألأسNX110-5LMF"
+    },
+    {
+        "carBrand": "لكزس",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "فئة أل أس",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/لكزسفئةألأسNX110-5LMF"
+    },
+    {
+        "carBrand": "لكزس",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "فئة أل أكس",
+        "category": "NX120-7LMF",
+        "price": 304,
+        "link": "https://example.com/product/لكزسفئةألأكسNX120-7LMF"
+    },
+    {
+        "carBrand": "لكزس",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "فئة أس سي",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/لكزسفئةأسسيNX110-5LMF"
+    },
+    {
+        "carBrand": "لنكولن",
+        "yearFrom": 1984,
+        "yearTo": 2025,
+        "type": "كونتيننتال",
+        "category": "65-72s",
+        "price": 300,
+        "link": "https://example.com/product/لنكولنكونتيننتال65-72s"
+    },
+    {
+        "carBrand": "لنكولن",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "تاون كار",
+        "category": "65-72s",
+        "price": 300,
+        "link": "https://example.com/product/لنكولنتاونكار65-72s"
+    },
+    {
+        "carBrand": "لنكولن",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "نافيجيتور",
+        "category": "65-72s",
+        "price": 300,
+        "link": "https://example.com/product/لنكولننافيجيتور65-72s"
+    },
+    {
+        "carBrand": "لنكولن",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "أم كـي أس",
+        "category": "65-72s",
+        "price": 300,
+        "link": "https://example.com/product/لنكولنأمكـيأس65-72s"
+    },
+    {
+        "carBrand": "لنكولن",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "أم كـي تي",
+        "category": "65-72s",
+        "price": 300,
+        "link": "https://example.com/product/لنكولنأمكـيتي65-72s"
+    },
+    {
+        "carBrand": "لنكولن",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "أم كـي أكس",
+        "category": "65-72s",
+        "price": 300,
+        "link": "https://example.com/product/لنكولنأمكـيأكس65-72s"
+    },
+    {
+        "carBrand": "لنكولن",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "أم كـي أكس",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/لنكولنأمكـيأكس20-66"
+    },
+    {
+        "carBrand": "لنكولن",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "أم كـي زد",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/لنكولنأمكـيزد27-55"
+    },
+    {
+        "carBrand": "مازيراتي",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "جران توريزمو",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/مازيراتيجرانتوريزمو20-66"
+    },
+    {
+        "carBrand": "مازيراتي",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "كواتروبورتي",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مازيراتيكواتروبورتي20-100"
+    },
+    {
+        "carBrand": "مايباخ",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "6.2 / 5.7",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/مايباخ6.2/5.720-88"
+    },
+    {
+        "carBrand": "مايباخ",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "6.2 / 5.7",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مايباخ6.2/5.720-100"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "سي أكس 5",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/مازداسيأكس555D23L"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "سي أكس 7",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/مازداسيأكس755D23L"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "سي أكس 9",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/مازداسيأكس9NX110-5LMF"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "فئة 2 / 3 / 5",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/مازدافئة2/3/555D23L"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "فئة 6",
+        "category": "70D23LMF",
+        "price": null,
+        "link": "https://example.com/product/مازدافئة670D23LMF"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 1983,
+        "yearTo": 2025,
+        "type": "323 / 626",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/مازدا323/62655D23L"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 1988,
+        "yearTo": 2025,
+        "type": 929,
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/مازدا92955D23L"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 1989,
+        "yearTo": 2025,
+        "type": "أم بي في",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/مازداأمبيفي55D23L"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 1992,
+        "yearTo": 2025,
+        "type": "أم أكس 3",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/مازداأمأكس355D23L"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "أم أكس 5",
+        "category": "NS60LSMF",
+        "price": null,
+        "link": "https://example.com/product/مازداأمأكس5NS60LSMF"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "أم أكس 6",
+        "category": "70D23LMF",
+        "price": null,
+        "link": "https://example.com/product/مازداأمأكس670D23LMF"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 1988,
+        "yearTo": 2025,
+        "type": "أم أكس 6",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/مازداأمأكس655D23L"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "بيك أب",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/مازدابيكأبNX110-5LMF"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "بي تي 50",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/مازدابيتي5055D23L"
+    },
+    {
+        "carBrand": "مازدا",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "بيك أب",
+        "category": "NX110-5MF",
+        "price": 282,
+        "link": "https://example.com/product/مازدابيكأبNX110-5MF"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "فئة سي",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/مرسيدسبنزفئةسي20-66"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "فئة سي",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةسي20-100"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": "فئة سي أل",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةسيأل20-100"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": "فئة سي أل كـي",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةسيألكـي20-100"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": "فئة سي أل أس",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةسيألأس20-100"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "فئة إي",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/مرسيدسبنزفئةإي20-88"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "فئة جي",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةجي20-100"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "فئة جي (8 سلندر)",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةجي(8سلندر)20-100"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "فئة جي (6 سلندر)",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/مرسيدسبنزفئةجي(6سلندر)20-66"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "فئة أم أل",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةأمأل20-100"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "فئة أس",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةأس20-100"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "فئة أس أل",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةأسأل20-100"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "فئة أس أل كـي",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/مرسيدسبنزفئةأسألكـي20-66"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "فئة أس أل كـي",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/مرسيدسبنزفئةأسألكـي20-66"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "فئة أس أل أر",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةأسألأر20-100"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "فئة سي",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/مرسيدسبنزفئةسي94R-72"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "فئة سي",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةسي20-100"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "فئة إي",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةإي20-100"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "فئة إي",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/مرسيدسبنزفئةإي20-66"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "فئة أم أل",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/مرسيدسبنزفئةأمأل20-88"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "فئة أس",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/مرسيدسبنزفئةأس20-88"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "فئة أس أل",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/مرسيدسبنزفئةأسأل20-66"
+    },
+    {
+        "carBrand": "مرسيدس بنز",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "فئة أس أل كـي",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/مرسيدسبنزفئةأسألكـي20-100"
+    },
+    {
+        "carBrand": "ميركوري",
+        "yearFrom": 1992,
+        "yearTo": 2025,
+        "type": "جراند ماركيز",
+        "category": "65-72s",
+        "price": 300,
+        "link": "https://example.com/product/ميركوريجراندماركيز65-72s"
+    },
+    {
+        "carBrand": "ميركوري",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "مارينر",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/ميركوريمارينر27-55"
+    },
+    {
+        "carBrand": "ميركوري",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "ميلان",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/ميركوريميلان27-55"
+    },
+    {
+        "carBrand": "ميركوري",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "مونتيجو",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/ميركوريمونتيجو20-66"
+    },
+    {
+        "carBrand": "ميركوري",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "ماونتينير",
+        "category": "65-72",
+        "price": null,
+        "link": "https://example.com/product/ميركوريماونتينير65-72"
+    },
+    {
+        "carBrand": "ميركوري",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "سابل / تراسر",
+        "category": "30-50",
+        "price": null,
+        "link": "https://example.com/product/ميركوريسابل/تراسر30-50"
+    },
+    {
+        "carBrand": "ميركوري",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "مارينر",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/ميركوريمارينر27-66"
+    },
+    {
+        "carBrand": "ميني",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "كوبر",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/مينيكوبر20-66"
+    },
+    {
+        "carBrand": "ميني",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "كوبر",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/مينيكوبر20-55"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 2012,
+        "yearTo": 2025,
+        "type": "أي أس أكس",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/ميتسوبيشيأيأسأكس55D23L"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 1983,
+        "yearTo": 2025,
+        "type": "كولت",
+        "category": "N50LMF",
+        "price": 200,
+        "link": "https://example.com/product/ميتسوبيشيكولتN50LMF"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "إكليبس",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/ميتسوبيشيإكليبس85BR60K"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "جالانت (4 سلندر)",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/ميتسوبيشيجالانت(4سلندر)85BR60K"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "جالانت (6 سلندر)",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/ميتسوبيشيجالانت(6سلندر)NS70LMF"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "جراندس",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/ميتسوبيشيجراندس55D23L"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "أل 200",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/ميتسوبيشيأل20055D23L"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "أل 200",
+        "category": "N50MF",
+        "price": 200,
+        "link": "https://example.com/product/ميتسوبيشيأل200N50MF"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "أل 300",
+        "category": "70D23LMF",
+        "price": null,
+        "link": "https://example.com/product/ميتسوبيشيأل30070D23LMF"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "لانسر",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/ميتسوبيشيلانسر55D23L"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "ماجنا",
+        "category": "85BR60K",
+        "price": 253,
+        "link": "https://example.com/product/ميتسوبيشيماجنا85BR60K"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 1991,
+        "yearTo": 2025,
+        "type": "ماجنا",
+        "category": "N50LMF",
+        "price": 200,
+        "link": "https://example.com/product/ميتسوبيشيماجناN50LMF"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "ناتيفا",
+        "category": "NX110-5MF",
+        "price": 282,
+        "link": "https://example.com/product/ميتسوبيشيناتيفاNX110-5MF"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "أوت لاندر",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/ميتسوبيشيأوتلاندر55D23L"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "باجيرو",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/ميتسوبيشيباجيروNX110-5LMF"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "زد 7",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/ميتسوبيشيزد755D23L"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "لانسر",
+        "category": "NS60LSMF",
+        "price": null,
+        "link": "https://example.com/product/ميتسوبيشيلانسرNS60LSMF"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "باجيرو",
+        "category": "70D23L",
+        "price": null,
+        "link": "https://example.com/product/ميتسوبيشيباجيرو70D23L"
+    },
+    {
+        "carBrand": "ميتسوبيشي",
+        "yearFrom": 1983,
+        "yearTo": 2025,
+        "type": "كولت",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/ميتسوبيشيكولت55D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "350 زد",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/نيسان350زدNS70LMF"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "التيما",
+        "category": "70D23L",
+        "price": null,
+        "link": "https://example.com/product/نيسانالتيما70D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "التيما",
+        "category": "NS70LMF",
+        "price": null,
+        "link": "https://example.com/product/نيسانالتيماNS70LMF"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "التيما",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/نيسانالتيما55D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "أرمادا",
+        "category": "105D31L",
+        "price": 327,
+        "link": "https://example.com/product/نيسانأرمادا105D31L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "جي تي أر",
+        "category": "NS60LSMF",
+        "price": null,
+        "link": "https://example.com/product/نيسانجيتيأرNS60LSMF"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "جوك",
+        "category": "70D23L",
+        "price": null,
+        "link": "https://example.com/product/نيسانجوك70D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "ماكسيما",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/نيسانماكسيما55D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "ميكرا",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/نيسانميكرا27-44"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "مورانو",
+        "category": "70D23L",
+        "price": null,
+        "link": "https://example.com/product/نيسانمورانو70D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "نافارا",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/نيساننافاراNX110-5LMF"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "نافارا",
+        "category": "55D23R",
+        "price": 217,
+        "link": "https://example.com/product/نيساننافارا55D23R"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "باثفايندر",
+        "category": "70D23L",
+        "price": null,
+        "link": "https://example.com/product/نيسانباثفايندر70D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "باثفايندر",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/نيسانباثفايندر55D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": "باثفايندر",
+        "category": "NX110-5MF",
+        "price": 282,
+        "link": "https://example.com/product/نيسانباثفايندرNX110-5MF"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "باترول (8 سلندر)",
+        "category": "115D31R",
+        "price": 348,
+        "link": "https://example.com/product/نيسانباترول(8سلندر)115D31R"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "باترول (6 سلندر)",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/نيسانباترول(6سلندر)NX110-5LMF"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2014,
+        "yearTo": 2025,
+        "type": "قشقاي",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/نيسانقشقاي20-55"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2012,
+        "yearTo": 2025,
+        "type": "سنترا",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/نيسانسنترا55D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "صني",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/نيسانصني27-44"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "صني",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/نيسانصنيNS40ZLMF"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "تيدا",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/نيسانتيدا55D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "تيدا",
+        "category": "NS60LMF",
+        "price": 189,
+        "link": "https://example.com/product/نيسانتيداNS60LMF"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2013,
+        "yearTo": 2025,
+        "type": "أورفان",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/نيسانأورفان55D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "إكستيرا",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/نيسانإكستيرا55D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "إكستيرا",
+        "category": "N50LMF",
+        "price": 200,
+        "link": "https://example.com/product/نيسانإكستيراN50LMF"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "إكستيرا",
+        "category": "55D23R",
+        "price": 217,
+        "link": "https://example.com/product/نيسانإكستيرا55D23R"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "أكس تريل",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/نيسانأكستريل55D23L"
+    },
+    {
+        "carBrand": "نيسان",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "أرمادا",
+        "category": "NX120-7LMF",
+        "price": 304,
+        "link": "https://example.com/product/نيسانأرماداNX120-7LMF"
+    },
+    {
+        "carBrand": "أوبل",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": "فيكترا / سينترا",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/أوبلفيكترا/سينترا27-55"
+    },
+    {
+        "carBrand": "أوبل",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "أوميجا",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/أوبلأوميجا27-66"
+    },
+    {
+        "carBrand": "أوبل",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "فرونتيرا",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/أوبلفرونتيرا27-55"
+    },
+    {
+        "carBrand": "أوبل",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "كورسا",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/أوبلكورسا27-55"
+    },
+    {
+        "carBrand": "أوبل",
+        "yearFrom": 1991,
+        "yearTo": 2025,
+        "type": "أسترا",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/أوبلأسترا27-55"
+    },
+    {
+        "carBrand": "بيجو",
+        "yearFrom": 1992,
+        "yearTo": 2025,
+        "type": 106,
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/بيجو10620-55"
+    },
+    {
+        "carBrand": "بيجو",
+        "yearFrom": 1985,
+        "yearTo": 2025,
+        "type": "205، 206، 207",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/بيجو205،206،20720-55"
+    },
+    {
+        "carBrand": "بيجو",
+        "yearFrom": 1977,
+        "yearTo": 2025,
+        "type": "305، 306، 307",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/بيجو305،306،30720-55"
+    },
+    {
+        "carBrand": "بيجو",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": 308,
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/بيجو30820-66"
+    },
+    {
+        "carBrand": "بيجو",
+        "yearFrom": 1987,
+        "yearTo": 2025,
+        "type": 405,
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/بيجو40520-55"
+    },
+    {
+        "carBrand": "بيجو",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": 406,
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/بيجو40620-55"
+    },
+    {
+        "carBrand": "بيجو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": 407,
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/بيجو40720-55"
+    },
+    {
+        "carBrand": "بيجو",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": 607,
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/بيجو60720-66"
+    },
+    {
+        "carBrand": "بيجو",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "بارتنر",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/بيجوبارتنر20-55"
+    },
+    {
+        "carBrand": "بيجو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": 407,
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/بيجو40720-66"
+    },
+    {
+        "carBrand": "بيجو",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "بارتنر",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/بيجوبارتنر20-66"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": 911,
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بورشه91120-100"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": 911,
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/بورشه91194R-72"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": 911,
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/بورشه91120-88"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 1992,
+        "yearTo": 2025,
+        "type": 911,
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/بورشه91120-66"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "بوكستر",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/بورشهبوكستر94R-72"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "بوكستر",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/بورشهبوكستر20-66"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "بوكستر",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/بورشهبوكستر20-66"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "كايان 4.5L / 4.8L",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بورشهكايان4.5L/4.8L20-100"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "كايان 3.0L / 3.2L / 3.6L",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/بورشهكايان3.0L/3.2L/3.6L94R-72"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "كايمان",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بورشهكايمان20-100"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "بانامير",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بورشهبانامير20-100"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": 911,
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بورشه91120-100"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": 911,
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/بورشه91120-100"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "بوكستر",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/بورشهبوكستر94R-72"
+    },
+    {
+        "carBrand": "بورشه",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "كايمان",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/بورشهكايمان94R-72"
+    },
+    {
+        "carBrand": "بروتون",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "جومبك",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/بروتونجومبك55D23L"
+    },
+    {
+        "carBrand": "بروتون",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "برسونا",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/بروتونبرسونا55D23L"
+    },
+    {
+        "carBrand": "بروتون",
+        "yearFrom": 1987,
+        "yearTo": 2025,
+        "type": "ساجا",
+        "category": "NS40ZLSMF",
+        "price": null,
+        "link": "https://example.com/product/بروتونساجاNS40ZLSMF"
+    },
+    {
+        "carBrand": "بروتون",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": "ساتريا",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/بروتونساتريا85B60K"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "كليو",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/رينوكليو27-55"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 1991,
+        "yearTo": 2025,
+        "type": "كليو",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/رينوكليو27-44"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "داستر",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/رينوداستر20-55"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "اسباس",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/رينواسباس20-88"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 1982,
+        "yearTo": 2025,
+        "type": "فيجو",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/رينوفيجو85B60K"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "كانجو",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/رينوكانجو20-55"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "كانجو",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/رينوكانجو27-66"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "كوليوس",
+        "category": "N70LMF",
+        "price": 265,
+        "link": "https://example.com/product/رينوكوليوسN70LMF"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "لاجونا",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/رينولاجونا27-55"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "ريكستون",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/رينوريكستون27-66"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "لاجونا",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/رينولاجونا20-88"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "لاجونا",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/رينولاجونا27-66"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "ميجان",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/رينوميجان27-66"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": "ميجان",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/رينوميجان27-55"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "ترافيك",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/رينوترافيك27-66"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "ترافيك",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/رينوترافيك20-88"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "سينيك",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/رينوسينيك27-66"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "سينيك",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/رينوسينيك27-55"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 1991,
+        "yearTo": 2025,
+        "type": "كليو",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/رينوكليو20-55"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "كوليوس",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/رينوكوليوسNX110-5LMF"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "ميجان",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/رينوميجان27-55"
+    },
+    {
+        "carBrand": "رينو",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "ترافيك",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/رينوترافيك20-100"
+    },
+    {
+        "carBrand": "رولز رويس",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "فانتوم",
+        "category": "48-7MF",
+        "price": 384,
+        "link": "https://example.com/product/رولزرويسفانتوم48-7MF"
+    },
+    {
+        "carBrand": "رولز رويس",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "فانتوم",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/رولزرويسفانتوم20-100"
+    },
+    {
+        "carBrand": "ساب",
+        "yearFrom": 1987,
+        "yearTo": 2025,
+        "type": 9000,
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/ساب900020-55"
+    },
+    {
+        "carBrand": "ساب",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": 45903,
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/ساب4590320-66"
+    },
+    {
+        "carBrand": "ساب",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": 45903,
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/ساب4590320-55"
+    },
+    {
+        "carBrand": "ساب",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": 45905,
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/ساب4590520-66"
+    },
+    {
+        "carBrand": "ساب",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": 45907,
+        "category": "78A72",
+        "price": 310,
+        "link": "https://example.com/product/ساب4590778A72"
+    },
+    {
+        "carBrand": "ساب",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": 45905,
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/ساب4590527-66"
+    },
+    {
+        "carBrand": "سيات",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "الميرا",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/سياتالميرا20-66"
+    },
+    {
+        "carBrand": "سيات",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "التيا",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/سياتالتيا27-66"
+    },
+    {
+        "carBrand": "سيات",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "كوردوبا",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/سياتكوردوبا27-66"
+    },
+    {
+        "carBrand": "سيات",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "ايبيزا",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/سياتايبيزا20-66"
+    },
+    {
+        "carBrand": "سيات",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "ايبيزا",
+        "category": "30-55",
+        "price": 222,
+        "link": "https://example.com/product/سياتايبيزا30-55"
+    },
+    {
+        "carBrand": "سيات",
+        "yearFrom": 1997,
+        "yearTo": 2025,
+        "type": "انكا",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/سياتانكا27-55"
+    },
+    {
+        "carBrand": "سيات",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "ليون",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/سياتليون20-66"
+    },
+    {
+        "carBrand": "سيات",
+        "yearFrom": 1991,
+        "yearTo": 2025,
+        "type": "توليدو",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/سياتتوليدو27-55"
+    },
+    {
+        "carBrand": "سيات",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "توليدو",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/سياتتوليدو20-66"
+    },
+    {
+        "carBrand": "سيات",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "كوردوبا",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/سياتكوردوبا27-55"
+    },
+    {
+        "carBrand": "سيات",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "ايبيزا",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/سياتايبيزا20-55"
+    },
+    {
+        "carBrand": "سكودا",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "اوكتافيا",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/سكودااوكتافيا20-55"
+    },
+    {
+        "carBrand": "سكودا",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "سوبرب",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/سكوداسوبرب27-66"
+    },
+    {
+        "carBrand": "سكودا",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "فابيا",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/سكودافابيا27-66"
+    },
+    {
+        "carBrand": "سمارت",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "فورتو",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/سمارتفورتو20-55"
+    },
+    {
+        "carBrand": "سانغ يونغ",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "تشيرمان",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/سانغيونغتشيرمان20-88"
+    },
+    {
+        "carBrand": "سانغ يونغ",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "ريكستون / كيرون / موسو",
+        "category": "105D31R",
+        "price": 327,
+        "link": "https://example.com/product/سانغيونغريكستون/كيرون/موسو105D31R"
+    },
+    {
+        "carBrand": "سانغ يونغ",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "روديوس",
+        "category": "105D31R",
+        "price": 327,
+        "link": "https://example.com/product/سانغيونغروديوس105D31R"
+    },
+    {
+        "carBrand": "سانغ يونغ",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "كوراندو",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/سانغيونغكوراندوNX110-5LMF"
+    },
+    {
+        "carBrand": "سانغ يونغ",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "ريكستون / كيرون / موسو",
+        "category": "NX120-7MF",
+        "price": 304,
+        "link": "https://example.com/product/سانغيونغريكستون/كيرون/موسوNX120-7MF"
+    },
+    {
+        "carBrand": "سانغ يونغ",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "روديوس",
+        "category": "NX120-7MF",
+        "price": 304,
+        "link": "https://example.com/product/سانغيونغروديوسNX120-7MF"
+    },
+    {
+        "carBrand": "سوبارو",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "امبريزا",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/سوباروامبريزا55D23L"
+    },
+    {
+        "carBrand": "سوبارو",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "اوتباك",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/سوبارواوتباك55D23L"
+    },
+    {
+        "carBrand": "سوبارو",
+        "yearFrom": 1993,
+        "yearTo": 2025,
+        "type": "فوريستر",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/سوباروفوريستر55D23L"
+    },
+    {
+        "carBrand": "سوبارو",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "ليجاسي",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/سوباروليجاسي55D23L"
+    },
+    {
+        "carBrand": "سوبارو",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "تريبيكا",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/سوباروتريبيكا55D23L"
+    },
+    {
+        "carBrand": "سوبارو",
+        "yearFrom": 2014,
+        "yearTo": 2025,
+        "type": "تريبيكا",
+        "category": "75D23L",
+        "price": 237,
+        "link": "https://example.com/product/سوباروتريبيكا75D23L"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "التو",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/سوزوكيالتوNS40ZLMF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "اي بي في فان",
+        "category": "NS60SMF",
+        "price": null,
+        "link": "https://example.com/product/سوزوكيايبيفيفانNS60SMF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "بالينو",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/سوزوكيبالينوNS40ZLMF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "جراند فيتارا",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/سوزوكيجراندفيتارا55D23L"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "اجنيس",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/سوزوكياجنيسNS40ZLMF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "جيمي",
+        "category": "NS40ZMF",
+        "price": 146,
+        "link": "https://example.com/product/سوزوكيجيميNS40ZMF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "كيزاشي",
+        "category": "N70LMF",
+        "price": 265,
+        "link": "https://example.com/product/سوزوكيكيزاشيN70LMF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "ليانا",
+        "category": "NS60LMF",
+        "price": 189,
+        "link": "https://example.com/product/سوزوكيلياناNS60LMF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "سويفت",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/سوزوكيسويفت85B60K"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "سويفت",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/سوزوكيسويفت27-44"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "أس أكس 4",
+        "category": "N70LMF",
+        "price": 265,
+        "link": "https://example.com/product/سوزوكيأسأكس4N70LMF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "أكس ال 7",
+        "category": "27-60 (DC)",
+        "price": null,
+        "link": "https://example.com/product/سوزوكيأكسال727-60(DC)"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "بالينو",
+        "category": "27-44",
+        "price": 191,
+        "link": "https://example.com/product/سوزوكيبالينو27-44"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2010,
+        "yearTo": 2025,
+        "type": "كيزاشي",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/سوزوكيكيزاشيNX110-5LMF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "ليانا",
+        "category": "NS60LSMF",
+        "price": null,
+        "link": "https://example.com/product/سوزوكيلياناNS60LSMF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "ليانا",
+        "category": "N70LMF",
+        "price": 265,
+        "link": "https://example.com/product/سوزوكيلياناN70LMF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "سويفت",
+        "category": "NS60MF",
+        "price": 189,
+        "link": "https://example.com/product/سوزوكيسويفتNS60MF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 1995,
+        "yearTo": 2025,
+        "type": "سويفت",
+        "category": "NS60MF",
+        "price": 189,
+        "link": "https://example.com/product/سوزوكيسويفتNS60MF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2011,
+        "yearTo": 2025,
+        "type": "أس أكس 4",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/سوزوكيأسأكس4NX110-5LMF"
+    },
+    {
+        "carBrand": "سوزوكي",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "أكس ال 7",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/سوزوكيأكسال755D23L"
+    },
+    {
+        "carBrand": "تاتا",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "لينكس",
+        "category": "NX120-7MF",
+        "price": 304,
+        "link": "https://example.com/product/تاتالينكسNX120-7MF"
+    },
+    {
+        "carBrand": "تاتا",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "أوريكس",
+        "category": "NX120-7MF",
+        "price": 304,
+        "link": "https://example.com/product/تاتاأوريكسNX120-7MF"
+    },
+    {
+        "carBrand": "تاتا",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "لينكس",
+        "category": "105D31R",
+        "price": 327,
+        "link": "https://example.com/product/تاتالينكس105D31R"
+    },
+    {
+        "carBrand": "تاتا",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "أوريكس",
+        "category": "105D31R",
+        "price": 327,
+        "link": "https://example.com/product/تاتاأوريكس105D31R"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "أوريون",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/تويوتاأوريون55D23L"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "أفالون",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/تويوتاأفالون55D23L"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "كامري",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/تويوتاكامري55D23L"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "سيليكا",
+        "category": "NS60LMF",
+        "price": 189,
+        "link": "https://example.com/product/تويوتاسيليكاNS60LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "كورولا",
+        "category": "NS60LSMF",
+        "price": null,
+        "link": "https://example.com/product/تويوتاكورولاNS60LSMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1992,
+        "yearTo": 2025,
+        "type": "كورولا",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/تويوتاكورولاNS40ZLMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1992,
+        "yearTo": 2025,
+        "type": "تيرسل",
+        "category": "NS40ZLMF",
+        "price": 146,
+        "link": "https://example.com/product/تويوتاتيرسلNS40ZLMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "كورونا",
+        "category": "NS60LMF",
+        "price": 189,
+        "link": "https://example.com/product/تويوتاكوروناNS60LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "كريسيدا",
+        "category": "NS60LMF",
+        "price": 189,
+        "link": "https://example.com/product/تويوتاكريسيداNS60LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "دينا",
+        "category": "NX120-7MF",
+        "price": 304,
+        "link": "https://example.com/product/تويوتاديناNX120-7MF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "ايكو",
+        "category": "N40LMF",
+        "price": 182,
+        "link": "https://example.com/product/تويوتاايكوN40LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "أف جي كروزر",
+        "category": "105D31L",
+        "price": 327,
+        "link": "https://example.com/product/تويوتاأفجيكروزر105D31L"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "فورتشنر (4 سلندر)",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/تويوتافورتشنر(4سلندر)55D23L"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "فورتشنر (6 سلندر)",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/تويوتافورتشنر(6سلندر)NX110-5LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1994,
+        "yearTo": 2025,
+        "type": "هايس",
+        "category": "55D23R",
+        "price": 217,
+        "link": "https://example.com/product/تويوتاهايس55D23R"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "هاي لوكس بيك أب",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/تويوتاهايلوكسبيكأب55D23L"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "انوفا",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/تويوتاانوفا55D23L"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "لاند كروزر (8 سلندر)",
+        "category": "NX120-7LMF",
+        "price": 304,
+        "link": "https://example.com/product/تويوتالاندكروزر(8سلندر)NX120-7LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "لاند كروزر (6 سلندر)",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/تويوتالاندكروزر(6سلندر)NX110-5LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": "برادو",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/تويوتابرادو55D23L"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "بريفيا",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/تويوتابريفيا55D23L"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "راف 4",
+        "category": "55D23L",
+        "price": 217,
+        "link": "https://example.com/product/تويوتاراف455D23L"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "راف 4",
+        "category": "NS60LMF",
+        "price": 189,
+        "link": "https://example.com/product/تويوتاراف4NS60LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "سيكويا",
+        "category": "105D31L",
+        "price": 327,
+        "link": "https://example.com/product/تويوتاسيكويا105D31L"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "سيرا",
+        "category": "NS60LMF",
+        "price": 189,
+        "link": "https://example.com/product/تويوتاسيراNS60LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "إكس ايه",
+        "category": "NS60SMF",
+        "price": null,
+        "link": "https://example.com/product/تويوتاإكسايهNS60SMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": null,
+        "yearTo": 2025,
+        "type": "يارس",
+        "category": "NS60LSMF",
+        "price": null,
+        "link": "https://example.com/product/تويوتايارسNS60LSMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "كامري",
+        "category": "85B60K",
+        "price": 253,
+        "link": "https://example.com/product/تويوتاكامري85B60K"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1992,
+        "yearTo": 2025,
+        "type": "تيرسل",
+        "category": "NS60LMF",
+        "price": 189,
+        "link": "https://example.com/product/تويوتاتيرسلNS60LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "كورونا",
+        "category": "N40LMF",
+        "price": 182,
+        "link": "https://example.com/product/تويوتاكوروناN40LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "كريسيدا",
+        "category": "N50MF",
+        "price": 200,
+        "link": "https://example.com/product/تويوتاكريسيداN50MF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1990,
+        "yearTo": 2025,
+        "type": "هاي لوكس بيك أب",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/تويوتاهايلوكسبيكأبNX110-5LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "لاند كروزر (8 سلندر)",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/تويوتالاندكروزر(8سلندر)NX110-5LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 1996,
+        "yearTo": 2025,
+        "type": "برادو",
+        "category": "NX110-5LMF",
+        "price": null,
+        "link": "https://example.com/product/تويوتابرادوNX110-5LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "سيكويا",
+        "category": "NX120-7LMF",
+        "price": 304,
+        "link": "https://example.com/product/تويوتاسيكوياNX120-7LMF"
+    },
+    {
+        "carBrand": "تويوتا",
+        "yearFrom": null,
+        "yearTo": 2025,
+        "type": "يارس",
+        "category": "NS60MF",
+        "price": 189,
+        "link": "https://example.com/product/تويوتايارسNS60MF"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "بيتل (4، 5 سلندر)",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/فولكسفاجنبيتل(4،5سلندر)20-55"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "بيتل",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/فولكسفاجنبيتل20-55"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "كادي",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/فولكسفاجنكادي27-66"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "إي أو أس",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/فولكسفاجنإيأوأس20-55"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "جولف",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/فولكسفاجنجولف20-55"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "جي تي أي",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/فولكسفاجنجيتيأي20-66"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2000,
+        "yearTo": 2025,
+        "type": "جيتا (بورا)",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/فولكسفاجنجيتا(بورا)20-55"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "جيتا (بورا)",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/فولكسفاجنجيتا(بورا)20-55"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "ملتي فان",
+        "category": "20-88",
+        "price": 433,
+        "link": "https://example.com/product/فولكسفاجنملتيفان20-88"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "باسات",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/فولكسفاجنباسات20-55"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "فايتون",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/فولكسفاجنفايتون20-100"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "بولو",
+        "category": "27-55",
+        "price": 222,
+        "link": "https://example.com/product/فولكسفاجنبولو27-55"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "شاران",
+        "category": "27-74",
+        "price": 298,
+        "link": "https://example.com/product/فولكسفاجنشاران27-74"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2009,
+        "yearTo": 2025,
+        "type": "تيجوان",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/فولكسفاجنتيجوان20-55"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2008,
+        "yearTo": 2025,
+        "type": "طوارق (6 سلندر)",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/فولكسفاجنطوارق(6سلندر)20-100"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "طوارق (6 سلندر)",
+        "category": "94R-72",
+        "price": 367,
+        "link": "https://example.com/product/فولكسفاجنطوارق(6سلندر)94R-72"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "طوارق (8 سلندر)",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/فولكسفاجنطوارق(8سلندر)20-100"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "توران",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/فولكسفاجنتوران27-66"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "بيتل (4، 5 سلندر)",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/فولكسفاجنبيتل(4،5سلندر)20-66"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "جيتا (بورا)",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/فولكسفاجنجيتا(بورا)20-66"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2006,
+        "yearTo": 2025,
+        "type": "ملتي فان",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/فولكسفاجنملتيفان20-100"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "باسات",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/فولكسفاجنباسات20-66"
+    },
+    {
+        "carBrand": "فولكس فاجن",
+        "yearFrom": 2004,
+        "yearTo": 2025,
+        "type": "شاران",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/فولكسفاجنشاران27-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 2007,
+        "yearTo": 2025,
+        "type": "سي 30",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/فولفوسي3027-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "سي 70",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/فولفوسي7020-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "سي 70",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/فولفوسي7020-55"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "أس 40 / أس 60",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/فولفوأس40/أس6020-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "أس 70 / سي 70 / في 70",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/فولفوأس70/سي70/في7020-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 1998,
+        "yearTo": 2025,
+        "type": "أس 70 / سي 70 / في 70",
+        "category": "20-55",
+        "price": 222,
+        "link": "https://example.com/product/فولفوأس70/سي70/في7020-55"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 1999,
+        "yearTo": 2025,
+        "type": "أس 80",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/فولفوأس8020-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "في 50",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/فولفوفي5020-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 2002,
+        "yearTo": 2025,
+        "type": "أكس سي 70",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/فولفوأكسسي7020-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "أكس سي 90",
+        "category": "20-66",
+        "price": 264,
+        "link": "https://example.com/product/فولفوأكسسي9020-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "سي 70",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/فولفوسي7027-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "أس 40 / أس 60",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/فولفوأس40/أس6027-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 2001,
+        "yearTo": 2025,
+        "type": "أس 70 / سي 70 / في 70",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/فولفوأس70/سي70/في7027-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 2005,
+        "yearTo": 2025,
+        "type": "في 50",
+        "category": "27-66",
+        "price": 264,
+        "link": "https://example.com/product/فولفوفي5027-66"
+    },
+    {
+        "carBrand": "فولفو",
+        "yearFrom": 2003,
+        "yearTo": 2025,
+        "type": "أكس سي 90",
+        "category": "20-100",
+        "price": 438,
+        "link": "https://example.com/product/فولفوأكسسي9020-100"
+    }
+];
 
+    // إنشاء عناصر الواجهة ديناميكياً
     const app = document.getElementById("app");
 
-    const companies = [...new Set(batteries.map(b => b.company))];
+    // أولاً: إنشاء قائمة اختيار الشركة (carBrand)
+    const carBrands = [...new Set(batteries.map(b => b.carBrand))];
+    const brandSelect = createSelect("اختر شركة السيارة", carBrands);
+    app.appendChild(brandSelect.container);
 
-    const companySelect = createSelect("اختر شركة السيارة 1️⃣", companies);
-    app.appendChild(companySelect.container);
+    // ثانيًا: إنشاء قائمة اختيار نوع السيارة (type)
+    const typeSelect = createSelect("اختر نوع السيارة", []);
+    app.appendChild(typeSelect.container);
 
-    const modelSelect = createSelect("اختر موديل السيارة 2️⃣", []);
-    app.appendChild(modelSelect.container);
-
-    const yearSelect = createSelect("3️⃣ سنة تصنيع السيارة", []);
+    // ثالثًا: إنشاء قائمة اختيار سنة التصنيع
+    // هنا نقوم بإنشاء الخيارات لكل سنة من 1997 إلى 2025
+    const years = [];
+    for(let y = 1997; y <= 2025; y++){
+      years.push(y);
+    }
+    const yearSelect = createSelect("اختر سنة التصنيع", years);
     app.appendChild(yearSelect.container);
 
+    // إنشاء صندوق للنتائج
     const resultBox = document.createElement("div");
     resultBox.className = "result";
     app.appendChild(resultBox);
 
-    companySelect.select.onchange = () => {
-      const selectedCompany = companySelect.select.value;
-      const models = [...new Set(batteries.filter(b => b.company === selectedCompany).map(b => b.model))];
-      updateSelectOptions(modelSelect.select, models);
-      updateSelectOptions(yearSelect.select, []);
+    // تحديث قائمة النوع بناءً على اختيار الشركة
+    brandSelect.select.onchange = () => {
+      const selectedBrand = brandSelect.select.value;
+      const types = [...new Set(batteries.filter(b => b.carBrand === selectedBrand).map(b => b.type))];
+      updateSelectOptions(typeSelect.select, types);
       resultBox.innerHTML = "";
     };
 
-    modelSelect.select.onchange = () => {
-      const selectedCompany = companySelect.select.value;
-      const selectedModel = modelSelect.select.value;
-      const years = [...new Set(batteries.filter(b => b.company === selectedCompany && b.model === selectedModel).map(b => b.year))];
-      updateSelectOptions(yearSelect.select, years);
-      resultBox.innerHTML = "";
-    };
+    // عند اختيار النوع أو السنة، نقوم بالبحث عن البطارية المناسبة
+    typeSelect.select.onchange = checkMatching;
+    yearSelect.select.onchange = checkMatching;
 
-    yearSelect.select.onchange = () => {
-      const selectedCompany = companySelect.select.value;
-      const selectedModel = modelSelect.select.value;
+    function checkMatching() {
+      const selectedBrand = brandSelect.select.value;
+      const selectedType = typeSelect.select.value;
       const selectedYear = parseInt(yearSelect.select.value);
 
-      const matching = batteries.filter(b =>
-        b.company === selectedCompany &&
-        b.model === selectedModel &&
-        b.year === selectedYear
+      // تصفية النتائج التي تطابق الشركة والنوع
+      // والتأكد أن السنة المختارة تقع ضمن الفترة [yearFrom, yearTo]
+      const matchingBatteries = batteries.filter(b =>
+        b.carBrand === selectedBrand &&
+        b.type === selectedType &&
+        selectedYear >= b.yearFrom &&
+        selectedYear <= b.yearTo
       );
 
-      resultBox.innerHTML = "<h2>🔋 ترشيحات البطارية:</h2>";
-      if (matching.length) {
-        matching.forEach(b => {
-          const div = document.createElement("div");
-          div.className = "battery";
-          div.innerHTML = `
-            <div><strong>العلامة:</strong> ${b.brand}</div>
-            <div><strong>السعة:</strong> ${b.capacity}</div>
-            <div><strong>السنة:</strong> ${b.year}</div>
-            <a href="${b.link}" target="_blank">اذهب إلى المنتج 🔗</a>
-          `;
-          resultBox.appendChild(div);
-        });
-      } else {
-        resultBox.innerHTML += "<p>❌ لم يتم العثور على بطارية مناسبة.</p>";
-      }
-    };
+      resultBox.innerHTML = "<h2>🔋 النتيجة:</h2>";
 
+      if(matchingBatteries.length > 0) {
+        // إذا كانت النتائج أكثر من واحدة، نختار البطارية ذات السعر الأعلى
+        const bestBattery = matchingBatteries.reduce((prev, current) =>
+          (prev.price > current.price) ? prev : current
+        );
+
+        const div = document.createElement("div");
+        div.className = "battery";
+        div.innerHTML = `
+          <div><strong>الشركة:</strong> ${bestBattery.carBrand}</div>
+          <div><strong>النوع:</strong> ${bestBattery.type}</div>
+          <div><strong>الفئة:</strong> ${bestBattery.category}</div>
+          <div><strong>السعر:</strong> ${bestBattery.price} $</div>
+          <a href="${bestBattery.link}" target="_blank">اذهب إلى المنتج 🔗</a>
+        `;
+        resultBox.appendChild(div);
+      } else {
+        resultBox.innerHTML += "<p>❌ لم يتم العثور على بطارية مطابقة للمواصفات.</p>";
+      }
+    }
+
+    // دوال مساعدة لإنشاء وتحديث قوائم الاختيار
     function createSelect(labelText, options) {
       const container = document.createElement("div");
       container.className = "question";
